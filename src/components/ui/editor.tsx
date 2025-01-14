@@ -3,7 +3,7 @@ import "quill/dist/quill.snow.css";
 import { RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './button';
 import { PiTextAa } from 'react-icons/pi';
-import { ImageIcon, Keyboard, Smile } from 'lucide-react';
+import { ImageIcon, Smile } from 'lucide-react';
 import { MdSend } from 'react-icons/md';
 import { Hint } from '../hint';
 import { cn } from '@/lib/utils';
