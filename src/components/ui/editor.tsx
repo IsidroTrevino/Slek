@@ -65,8 +65,16 @@ const Editor = ({variant = 'create', onCancel, onSubmit, placeholder = "Share yo
                         enter: {
                             key: "Enter",
                             handler: () => {
-                                //submit form
-                                return;
+                                const text = quill.getText();
+                                const addedImage = imageElementRef.current?.files?.[0] || null;
+                                const isEmpty = !addedImage && text.replace(/<\/?[^>]+(>|$)/g, "").trim().length === 0;
+                                
+                                if (isEmpty) {
+                                    return;
+                                }
+
+                                const body = JSON.stringify(quill.getContents());
+                                submitRef.current?.({ body, image: addedImage });
                             }
                         },
                         shift_enter: {
@@ -110,7 +118,7 @@ const Editor = ({variant = 'create', onCancel, onSubmit, placeholder = "Share yo
         }
     }, [innerRef]);
 
-    const isEmpty = text.replace(/<\/?[^>]+(>|$)/g, "").trim().length === 0;
+    const isEmpty = !image && text.replace(/<\/?[^>]+(>|$)/g, "").trim().length === 0;
 
     const toggleToolbar = () => {
         setToolbarVisible(!isToolbarVisible);
@@ -124,12 +132,12 @@ const Editor = ({variant = 'create', onCancel, onSubmit, placeholder = "Share yo
     const onEmojiSelect = (emojiObject: any) => {
         const quill = quillRef.current;
         quill?.insertText(quill.getSelection()?.index || 0, emojiObject.emoji);
-      };
+    };
 
     return (
         <div className="flex flex-col">
         <input type="file" accept='image/*' ref={imageElementRef} onChange={(event) => setImage(event.target.files![0])} className='hidden'/>
-            <div className="flex flex-col border border-slate-200 rounded-e overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white">
+            <div className={cn("flex flex-col border border-slate-200 rounded-e overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white", disabled && 'opacity-50')}>
                 <div ref={containerRef} className='h-full ql-custom'/>
                 { image && (
                     <div className='p-2'>
@@ -168,16 +176,16 @@ const Editor = ({variant = 'create', onCancel, onSubmit, placeholder = "Share yo
                     )}
                     {variant === 'update' && (
                         <div className='ml-auto flex items-center gap-x-2'>
-                            <Button variant={'outline'} size={'sm'} onClick={() => {}} disabled={disabled}>
+                            <Button variant={'outline'} size={'sm'} onClick={onCancel} disabled={disabled}>
                                 Cancel
                             </Button>
-                            <Button variant={'outline'} size={'sm'} onClick={() => {}} disabled={disabled || isEmpty} className='bg-[#007a5a] hover:bg-[#007a5a]/80 text-white'>
+                            <Button variant={'outline'} size={'sm'} onClick={() => onSubmit({ body: JSON.stringify(quillRef.current?.getContents()), image })} disabled={disabled || isEmpty} className='bg-[#007a5a] hover:bg-[#007a5a]/80 text-white'>
                                 Save
                             </Button>
                         </div>
                     )}
                     {variant === 'create' && (
-                        <Button disabled={disabled || isEmpty} onClick={() => {}} size={'iconsm'} className={cn('ml-auto', 
+                        <Button disabled={disabled || isEmpty} onClick={() => onSubmit({ body: JSON.stringify(quillRef.current?.getContents()), image })} size={'iconsm'} className={cn('ml-auto', 
                             isEmpty 
                             ? 'bg-white hover:bg-white text-muted-foreground'
                             : 'bg-[#007a5a] hover:bg-[#007a5a]/80 text-white'
