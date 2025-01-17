@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useConfirm } from "@/features/auth/hooks/useConfirm";
 import { useDeleteMessage } from "@/features/messages/api/useDeleteMessage";
+import { useToggleReaction } from "@/features/reactions/api/useToggleReaction";
+import { Reactions } from "./reactions";
 
 const Renderer = dynamic(() => import("./renderer"), {ssr: false});
 const Editor = dynamic(() => import("./ui/editor"), {ssr: false});
@@ -41,10 +43,18 @@ const formatFullTime = (date: Date) => {
 export const Message = ({id, memberId, authorImage, authorName = "member", isAuthor, reactions, body, image, createdAt, updatedAt, isEditing, isCompact, setEditingId, hideThreadButton, threadCount, threadImage, threadTimestamp}: MessageProps) => {
     const {mutate: updateMessage, isPending: isUpdatingMessage} = useUpdateMessage();
     const {mutate: deleteMessage, isPending: isDeletingMessage} = useDeleteMessage();
+    const {mutate: toggleReaction, isPending: isTogglingReaction} = useToggleReaction();
 
     const [ConfirmDialog, confirm] = useConfirm("Delete message", "Are you sure you want to delete this message?");
 
     const isPending = isUpdatingMessage;
+    const handleReaction = (value: string) => {
+        toggleReaction({messageId: id, value}, {
+            onError: () => {
+                toast.error("Failed to add reaction");
+            }
+        });
+    }
 
     const handleUpdate = ({body}: {body: string}) => {
         updateMessage({messageId: id, body}, {
@@ -99,6 +109,7 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
                                     <span className="text-xs text-muted-foreground">(Edited)</span>
                                 ) : null
                             }
+                            <Reactions data={reactions} onChange={handleReaction}/>
                         </div>
                     )}
                     </div>
@@ -109,7 +120,7 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
                             handleEdit={() => setEditingId(id)}
                             handleThread={() => {}}
                             handleDelete={handleDelete}
-                            handleReaction={() => {}}
+                            handleReaction={handleReaction}
                             hideThreadButton={hideThreadButton}
                         />
                     )}
@@ -119,7 +130,6 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
     }
 
     const avatarFallback = authorName.charAt(0).toUpperCase();
-
     return (
         <>
             <ConfirmDialog/>
@@ -160,6 +170,7 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
                                     <span className="text-xs text-muted-foreground">(Edited)</span>
                                 ) : null
                             }
+                            <Reactions data={reactions} onChange={handleReaction}/>
                         </div>
                     )}
                 </div>
@@ -170,7 +181,7 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
                         handleEdit={() => setEditingId(id)}
                         handleThread={() => {}}
                         handleDelete={handleDelete}
-                        handleReaction={() => {}}
+                        handleReaction={handleReaction}
                         hideThreadButton={hideThreadButton}
                     />
                 )}
