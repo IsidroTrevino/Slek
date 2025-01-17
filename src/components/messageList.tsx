@@ -1,5 +1,5 @@
 import { GetMessagesReturnType } from "@/features/messages/api/useGetMessages";
-import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
+import { differenceInMinutes, format, isSameDay, startOfDay, subDays, parseISO } from "date-fns";
 import { Message } from "./message";
 import { channel } from "diagnostics_channel";
 import { ChannelHero } from "./channelHero";
@@ -23,19 +23,22 @@ interface MessageListProps {
 
 const TIME_THRESHOLD = 5;
 
-const formatDateLabel = (date: string) => {
-    const today = new Date();
-    
-    if(isToday(today)) {
+const formatDateLabel = (dateKey: string) => {
+    const today = startOfDay(new Date());
+    const yesterday = subDays(today, 1);
+    const messageDate = startOfDay(parseISO(dateKey));
+
+    if (isSameDay(messageDate, today)) {
         return "Today";
     }
-
-    if(isYesterday(today)) {
+    
+    if (isSameDay(messageDate, yesterday)) {
         return "Yesterday";
     }
 
-    return format(date, "EEEE, MMMM d");
-}
+    return format(messageDate, "MMMM d, yyyy");
+};
+
 
 export const MessageList = ({memberName, memberImage, channelName, channelCreationTime, variant = "channel", data, loadMore, isLoadingMore, canLoadMore}: MessageListProps) => {
     const groupedMessages = data?.reduce((groups, message) => {
@@ -118,13 +121,6 @@ export const MessageList = ({memberName, memberImage, channelName, channelCreati
                             <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
                                 <Loader className="size-4 animate-spin"/>
                             </span>
-                        </div>
-                    )
-                }
-                {
-                    !canLoadMore && (
-                        <div>
-                            No more messages to load
                         </div>
                     )
                 }

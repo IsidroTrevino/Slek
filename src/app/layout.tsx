@@ -6,6 +6,7 @@ import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { JotaiProvider } from "@/components/jotaiProvider";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,9 @@ export default function RootLayout({
             <JotaiProvider>
               <Toaster/>
               <Modals/>
-              {children}
+              <NuqsAdapter>
+                {children}
+              </NuqsAdapter>
             </JotaiProvider>
           </ConvexClientProvider>
         </body>
