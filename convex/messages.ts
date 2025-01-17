@@ -51,13 +51,42 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
     }
 }
 
+export const remove = mutation({
+    args: {
+        messageId: v.id("messages"),
+    },
+    handler: async (ctx, args) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (!userId) {
+            throw new Error("Not authenticated");
+        }
+
+        const message = await ctx.db.get(args.messageId);
+
+        if (!message) {
+            throw new Error("Message not found");
+        }
+
+        const member = await getMember(ctx, message.workspaceId, userId);
+
+        if (!member || member._id !== message.memberId) {
+            throw new Error("Not a member of this workspace");
+        }
+
+        await ctx.db.delete(args.messageId);
+
+        return args.messageId;
+    }
+});
+
 export const update = mutation({
     args: {
         messageId: v.id("messages"),
         body: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
-        const userId = getAuthUserId(ctx);
+        const userId = await getAuthUserId(ctx);
 
         if (!userId) {
             throw new Error("Not authenticated");
