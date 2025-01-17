@@ -51,6 +51,39 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
     }
 }
 
+export const update = mutation({
+    args: {
+        messageId: v.id("messages"),
+        body: v.optional(v.string()),
+    },
+    handler: async (ctx, args) => {
+        const userId = getAuthUserId(ctx);
+
+        if (!userId) {
+            throw new Error("Not authenticated");
+        }
+
+        const message = await ctx.db.get(args.messageId);
+
+        if (!message) {
+            throw new Error("Message not found");
+        }
+
+        const member = await getMember(ctx, message.workspaceId, userId);
+
+        if (!member || member._id !== message.memberId) {
+            throw new Error("Not a member of this workspace");
+        }
+
+        await ctx.db.patch(args.messageId, {
+            body: args.body,
+            updatedAt: Date.now(),
+        });
+
+        return args.messageId;
+    }
+});
+
 export const get = query({
     args: {
         channelId: v.optional(v.id("channels")),
