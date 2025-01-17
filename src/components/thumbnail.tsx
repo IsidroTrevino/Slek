@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 interface ThumbnailProps {
     url: string | null | undefined;
