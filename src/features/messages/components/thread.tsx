@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Id } from "../../../../convex/_generated/dataModel";
-import { AlertTriangle, Loader, MessageCircleReply, XIcon } from "lucide-react";
+import { AlertTriangle, Loader, XIcon } from "lucide-react";
 import { useGetMessage } from "../api/useGetMessage";
 import { Message } from "@/components/message";
 import { useCurrentMember } from "@/features/members/api/useCurrentMember";
@@ -206,6 +206,7 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
                                         hideThreadButton
                                         threadCount={message.threadCount}
                                         threadImage={message.threadImage}
+                                        threadName={message.threadName}
                                         threadTimestamp={message.threadTimestamp}
                                     />
                                 );

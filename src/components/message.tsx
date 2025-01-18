@@ -13,6 +13,7 @@ import { useDeleteMessage } from "@/features/messages/api/useDeleteMessage";
 import { useToggleReaction } from "@/features/reactions/api/useToggleReaction";
 import { Reactions } from "./reactions";
 import { usePanel } from "@/features/auth/hooks/usePanel";
+import { ThreadBar } from "./threadBar";
 
 const Renderer = dynamic(() => import("./renderer"), {ssr: false});
 const Editor = dynamic(() => import("./ui/editor"), {ssr: false});
@@ -34,6 +35,7 @@ interface MessageProps {
     hideThreadButton?: boolean;
     threadCount?: number;
     threadImage?: string;
+    threadName?: string;
     threadTimestamp?: number;
 }
 
@@ -41,7 +43,7 @@ const formatFullTime = (date: Date) => {
     return `${isToday(date) ? "Today" : isYesterday(date) ? "Yesterday" : format(date, "EEEE, MMMM d")} at ${format(date, "h:mm:ss a")}`;
 }
 
-export const Message = ({id, memberId, authorImage, authorName = "member", isAuthor, reactions, body, image, createdAt, updatedAt, isEditing, isCompact, setEditingId, hideThreadButton, threadCount, threadImage, threadTimestamp}: MessageProps) => {
+export const Message = ({id, memberId, authorImage, authorName = "member", isAuthor, reactions, body, image, createdAt, updatedAt, isEditing, isCompact, setEditingId, hideThreadButton, threadCount, threadImage, threadName, threadTimestamp}: MessageProps) => {
     const {mutate: updateMessage, isPending: isUpdatingMessage} = useUpdateMessage();
     const {mutate: deleteMessage, isPending: isDeletingMessage} = useDeleteMessage();
     const {mutate: toggleReaction, isPending: isTogglingReaction} = useToggleReaction();
@@ -116,6 +118,7 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
                                 ) : null
                             }
                             <Reactions data={reactions} onChange={handleReaction}/>
+                            <ThreadBar count={threadCount} image={threadImage} timestamp={threadTimestamp} name={threadName} onClick={() => onOpenMessage(id)}/>
                         </div>
                     )}
                     </div>
@@ -177,6 +180,7 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
                                 ) : null
                             }
                             <Reactions data={reactions} onChange={handleReaction}/>
+                            <ThreadBar count={threadCount} image={threadImage} timestamp={threadTimestamp} name={threadName} onClick={() => onOpenMessage(id)}/>
                         </div>
                     )}
                 </div>

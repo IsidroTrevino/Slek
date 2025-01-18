@@ -13,6 +13,7 @@ import { UserItem } from "./userItem";
 import { useCreateChannelModal } from "@/features/channels/store/useCreateChannelModal";
 import { useChannelId } from "@/features/auth/hooks/useChannelId";
 import { channel } from "diagnostics_channel";
+import { useMemberId } from "@/features/auth/hooks/useMemberId";
 
 
 export const WorkspaceSidebar = () => {
@@ -22,6 +23,7 @@ export const WorkspaceSidebar = () => {
     const {data: workspace, isLoading: workspaceLoading} = useGetWorkspace({id: workspaceId});
     const {data: channels} = useGetChannels({workspaceId});
     const {data: members} = useGetMembers({workspaceId});
+    const memberId = useMemberId();
 
     const [, setOpen] = useCreateChannelModal();
 
@@ -59,7 +61,7 @@ export const WorkspaceSidebar = () => {
             <WorkspaceSection label="Direct messages" hint="New direct message" onNew={() => {}}> 
                 {
                     members?.map((item) => (
-                        <UserItem key={item._id} id={item._id} label={item.user.name} image={item.user.image}/>
+                        <UserItem key={item._id} id={item._id} label={item.user.name} image={item.user.image} variant={item._id === memberId ? 'active' : 'default'}/>
                     ))
                 }
             </WorkspaceSection>
