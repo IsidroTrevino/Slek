@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ConvexClientProvider } from "@/components/convex-client-provider";
-import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { JotaiProvider } from "@/components/jotaiProvider";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
