@@ -52,7 +52,7 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
     const workspaceId = useWorkspaceId();
     const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
     const [editorKey, setEditorKey] = useState(0);
-    const [_isPending, setIsPending] = useState(false);
+    const [isPending, setIsPending] = useState(false);
     const editorRef = useRef<Quill | null>(null);
 
     const { mutate: createMessage } = useCreateMessage();
@@ -79,7 +79,7 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
             };
 
             if (image) {
-                const url = await generateUploadURL({}, {throwError: true});
+                const url = await generateUploadURL({throwError: true});
 
                 if (!url) {
                     throw new Error("Failed to generate upload URL");
@@ -126,7 +126,7 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
             {} as Record<string, typeof results>
         );
 
-    if (isLoadingMessage || status === "LoadingFirstPage") {
+    if (isLoadingMessage || status === "LoadingFirstPage" || isPending) {
         return (
             <div className="h-full flex flex-col">
                 <div className="flex justify-between items-center p-2 border-b">
