@@ -43,7 +43,7 @@ export const ChatInput = ({placeholder, conversationId}: ChatInputProps) => {
             };
 
             if (image) {
-                const url = await generateUploadURL({}, {throwError: true});
+                const url = await generateUploadURL({throwError: true});
 
                 if (!url) {
                     throw new Error("Failed to generate upload URL");
