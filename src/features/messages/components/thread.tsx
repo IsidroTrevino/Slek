@@ -52,7 +52,7 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
     const workspaceId = useWorkspaceId();
     const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
     const [editorKey, setEditorKey] = useState(0);
-    const [isPending, setIsPending] = useState(false);
+    const [_isPending, setIsPending] = useState(false);
     const editorRef = useRef<Quill | null>(null);
 
     const { mutate: createMessage } = useCreateMessage();

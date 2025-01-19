@@ -129,7 +129,11 @@ const Editor = ({variant = 'create', onCancel, onSubmit, placeholder = "Share yo
         }
     };
 
-    const onEmojiSelect = (emojiObject: any) => {
+    type EmojiObject = {
+        emoji: string;
+    };
+
+    const onEmojiSelect = (emojiObject: EmojiObject) => {
         const quill = quillRef.current;
         quill?.insertText(quill.getSelection()?.index || 0, emojiObject.emoji);
     };

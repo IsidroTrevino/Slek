@@ -29,8 +29,8 @@ export const Profile = ({id, onClose}: ProfileProps) => {
     const router = useRouter();
 
     const {data: currentMember, isLoading: isLoadingCurrentMember} = useCurrentMember({workspaceId});
-    const {mutate: updateMember, isPending: isUpdatingMember} = useUpdateMember();
-    const {mutate: deleteMember, isPending: isDeletingMember} = useRemoveMember();
+    const {mutate: updateMember} = useUpdateMember();
+    const {mutate: deleteMember} = useRemoveMember();
 
     const onRemove = async () => {
         const ok = await confirmDelete();

@@ -23,7 +23,7 @@ export const useGenerateUploadUrl = () => {
     const isError = useMemo(() => state === "error", [state]);
     const isSettled = useMemo(() => state === "settled", [state]);
 
-    const mutate = useCallback(async (_values: {}, options?: Options) => {
+    const mutate = useCallback(async (options?: Options) => {
         try {
             setData(null);
             setError(null);

@@ -6,7 +6,6 @@ import { useGetChannels } from "@/features/channels/api/useGetChannels";
 import { useGetMembers } from "@/features/members/api/useGetMembers";
 import { useGetWorkspace } from "@/features/workspaces/api/useGetWorkspace";
 import { Search,Info } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

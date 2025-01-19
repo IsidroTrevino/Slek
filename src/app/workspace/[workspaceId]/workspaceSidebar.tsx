@@ -12,7 +12,6 @@ import { useGetMembers } from "@/features/members/api/useGetMembers";
 import { UserItem } from "./userItem";
 import { useCreateChannelModal } from "@/features/channels/store/useCreateChannelModal";
 import { useChannelId } from "@/features/auth/hooks/useChannelId";
-import { channel } from "diagnostics_channel";
 import { useMemberId } from "@/features/auth/hooks/useMemberId";
 
 

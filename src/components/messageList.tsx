@@ -1,7 +1,6 @@
 import { GetMessagesReturnType } from "@/features/messages/api/useGetMessages";
 import { differenceInMinutes, format, isSameDay, startOfDay, subDays, parseISO } from "date-fns";
 import { Message } from "./message";
-import { channel } from "diagnostics_channel";
 import { ChannelHero } from "./channelHero";
 import { useState } from "react";
 import { Id } from "../../convex/_generated/dataModel";

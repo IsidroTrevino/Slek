@@ -12,7 +12,7 @@ import { Conversation } from "./conversation";
 const MemberIdPage = () => {
     const workspaceId = useWorkspaceId();
     const memberId = useMemberId();
-    const {data, mutate, isPending} = useCreateOrGetConversation();
+    const {mutate, isPending} = useCreateOrGetConversation();
 
     const [conversationId, setConversationId] = useState<Id<"conversations"> | null>(null);
 
