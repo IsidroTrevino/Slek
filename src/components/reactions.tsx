@@ -8,7 +8,7 @@ import { MdOutlineAddReaction } from "react-icons/md";
 
 
 interface ReactionsProps {
-    data: Array<Omit<Doc<"reactions">, "memberid">> & { count: number, memberIds: Id<"members">[] }
+    data: Array<Omit<Doc<"reactions">, "memberId"> & { count: number, memberIds: Id<"members">[] }>
     onChange: (value: string) => void;
 }
 

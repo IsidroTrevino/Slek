@@ -1,11 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
+import { 
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator
+} from "@/components/ui/command";
 import { DialogTitle } from "@/components/ui/dialog";
 import { useWorkspaceId } from "@/features/auth/hooks/useWorkspaceId";
 import { useGetChannels } from "@/features/channels/api/useGetChannels";
 import { useGetMembers } from "@/features/members/api/useGetMembers";
 import { useGetWorkspace } from "@/features/workspaces/api/useGetWorkspace";
-import { Search,Info } from "lucide-react";
+import { Search,Info, Command } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -43,28 +51,34 @@ export const Toolbar = () => {
                     </span>
                 </Button>
                 <CommandDialog open={open} onOpenChange={setOpen}>
-                    <DialogTitle className="sr-only">Search commands</DialogTitle>
-                    <Command>
-                        <CommandInput placeholder="Type a command or search..." />
-                        <CommandList>
-                            <CommandEmpty>No results found.</CommandEmpty>
-                            <CommandGroup heading="Channels">
-                                {channels?.map(channel => (
-                                    <CommandItem className='cursor-pointer' key={channel._id} onSelect={() => onChannelClick(channel._id)}>
-                                        {channel.name}
-                                    </CommandItem>
-                                ))}
-                            </CommandGroup>
-                            <CommandSeparator />
-                            <CommandGroup heading="Members">
+                    <DialogTitle></DialogTitle>
+                    <CommandInput/>
+                    <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup heading="Channels">
+                            {channels?.map(channel => (
+                                <CommandItem 
+                                    key={channel._id} 
+                                    onSelect={() => onChannelClick(channel._id)}
+                                    value={channel.name}
+                                >
+                                    {channel.name}
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
+                        <CommandSeparator />
+                        <CommandGroup heading="Members">
                             {members?.map(member => (
-                                <CommandItem className='cursor-pointer' key={member.user._id} onSelect={() => onMemberClick(member._id)}>
+                                <CommandItem 
+                                    key={member.user._id} 
+                                    onSelect={() => onMemberClick(member._id)}
+                                    value={member.user.name || ''}
+                                >
                                     {member.user.name}
                                 </CommandItem>
                             ))}
-                            </CommandGroup>
-                        </CommandList>
-                    </Command>
+                        </CommandGroup>
+                    </CommandList>
                 </CommandDialog>
             </div>
             <div className="ml-auto flex-1 flex items-center justify-end">

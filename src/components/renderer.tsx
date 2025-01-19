@@ -27,7 +27,9 @@ const Renderer = ({value}: RendererProps) => {
         const isEmpty = quill.getText().replace(/<\/?[^>]+(>|$)/g, "").trim().length === 0;
         setIsEmpty(isEmpty);
 
-        container.innerHTML = quill.root.innerHTML;
+        if (container) {
+            container.innerHTML = quill.root.innerHTML;
+        }
 
         return () => {
             if (container) {

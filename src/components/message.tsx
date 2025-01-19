@@ -24,7 +24,15 @@ interface MessageProps {
     authorImage?: string;
     authorName: string;
     isAuthor: boolean;
-    reactions: Array<Omit<Doc<"reactions">, "memberid">> & { count: number, memberIds: Id<"members">[] };
+    reactions: Array<{
+        _id: Id<"reactions">;
+        _creationTime: number;
+        workspaceId: Id<"workspaces">;
+        message: Id<"messages">;
+        value: string;
+        count: number;
+        memberIds: Id<"members">[];
+    }>;
     body: Doc<"messages">["body"];
     image: string | null | undefined;
     createdAt: Doc<"messages">["_creationTime"];

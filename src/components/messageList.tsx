@@ -81,7 +81,7 @@ export const MessageList = ({memberName, memberImage, channelName, channelCreati
                                     id={message._id} 
                                     memberId={message.memberId} 
                                     authorImage={message.user.image} 
-                                    authorName={message.user.name} 
+                                    authorName={message.user.name ?? "Unknown"} 
                                     isAuthor={currentMember?._id === message.memberId}
                                     reactions={message.reactions} 
                                     body={message.body}

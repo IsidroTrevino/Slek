@@ -189,25 +189,19 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
 
                                 return (
                                     <Message 
-                                        key={message._id} 
-                                        id={message._id} 
-                                        memberId={message.memberId} 
-                                        authorImage={message.user.image} 
-                                        authorName={message.user.name} 
+                                        hideThreadButton
+                                        memberId={message.memberId}
+                                        authorImage={message.user.image}
+                                        authorName={message.user.name ?? "Unknown User"}
                                         isAuthor={currentMember?._id === message.memberId}
-                                        reactions={message.reactions} 
                                         body={message.body}
                                         image={message.image}
-                                        updatedAt={message.updatedAt}
                                         createdAt={message._creationTime}
+                                        updatedAt={message.updatedAt}
+                                        id={message._id}
+                                        reactions={message.reactions}
                                         isEditing={editingId === message._id}
                                         setEditingId={setEditingId}
-                                        isCompact={isCompact}
-                                        hideThreadButton
-                                        threadCount={message.threadCount}
-                                        threadImage={message.threadImage}
-                                        threadName={message.threadName}
-                                        threadTimestamp={message.threadTimestamp}
                                     />
                                 );
                             })}
@@ -241,7 +235,7 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
                     hideThreadButton
                     memberId={message.memberId}
                     authorImage={message.user.image}
-                    authorName={message.user.name}
+                    authorName={message.user.name ?? "Unknown User"}
                     isAuthor={currentMember?._id === message.memberId}
                     body={message.body}
                     image={message.image}
