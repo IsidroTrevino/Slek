@@ -186,7 +186,7 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
                             {messages.map((message, index) => {
                                 const previousMessage = messages[index - 1];
                                 const isCompact = previousMessage && previousMessage.user?._id === message.user?._id && differenceInMinutes(new Date(message._creationTime), new Date(previousMessage._creationTime)) < TIME_THRESHOLD;
-
+                                
                                 return (
                                     <Message 
                                         hideThreadButton
@@ -195,6 +195,7 @@ export const Thread = ({messageId, onClose}: ThreadProps) => {
                                         authorName={message.user.name ?? "Unknown User"}
                                         isAuthor={currentMember?._id === message.memberId}
                                         body={message.body}
+                                        isCompact={isCompact}
                                         image={message.image}
                                         createdAt={message._creationTime}
                                         updatedAt={message.updatedAt}
