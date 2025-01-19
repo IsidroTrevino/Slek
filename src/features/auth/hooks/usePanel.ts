@@ -1,19 +1,30 @@
+import { useProfileMemberId } from "@/features/members/store/useProfileMemberId";
 import { useParentMessageId } from "@/features/messages/store/useParentMessageId";
 
 export const usePanel = () => {
     const [parentMessageId, setParentMessageId] = useParentMessageId();
+    const [profileMemberId, setProfileMemberId] = useProfileMemberId();
 
     const onOpenMessage = (messageId: string) => {
         setParentMessageId(messageId);
+        setProfileMemberId(null);
     }
-
+    
+    const onOpenProfile = (memberId: string) => {
+        setProfileMemberId(memberId);
+        setParentMessageId(null);
+    }
+    
     const onCloseMessage = () => {
         setParentMessageId(null);
+        setProfileMemberId(null);
     }
     
     return {
         parentMessageId,
         onCloseMessage,
-        onOpenMessage
+        onOpenMessage,
+        onOpenProfile,
+        profileMemberId,
     };
 }

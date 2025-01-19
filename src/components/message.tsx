@@ -47,11 +47,12 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
     const {mutate: updateMessage, isPending: isUpdatingMessage} = useUpdateMessage();
     const {mutate: deleteMessage, isPending: isDeletingMessage} = useDeleteMessage();
     const {mutate: toggleReaction, isPending: isTogglingReaction} = useToggleReaction();
-    const {onOpenMessage, onCloseMessage, parentMessageId} = usePanel();
+    const {onOpenMessage, onCloseMessage, parentMessageId, onOpenProfile} = usePanel();
 
     const [ConfirmDialog, confirm] = useConfirm("Delete message", "Are you sure you want to delete this message?");
 
-    const isPending = isUpdatingMessage;
+    const isPending = isUpdatingMessage || isTogglingReaction;
+
     const handleReaction = (value: string) => {
         toggleReaction({messageId: id, value}, {
             onError: () => {
@@ -147,7 +148,7 @@ export const Message = ({id, memberId, authorImage, authorName = "member", isAut
                 isDeletingMessage && "bg-gray-500/50 transform transition-all scale-y-0 origin-bottom duration-200"
             )}>
                 <div className="flex items-start gap-2">
-                    <button>
+                    <button onClick={() => onOpenProfile(memberId)}>
                         <Avatar className="rounded-md">
                             <AvatarImage src={authorImage}/>
                             <AvatarFallback>
