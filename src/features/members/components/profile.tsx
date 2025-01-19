@@ -92,7 +92,7 @@ export const Profile = ({id, onClose}: ProfileProps) => {
         return (
             <div className="h-full flex flex-col">
                 <div className="flex justify-between items-center p-2 border-b">
-                    <p className="text-lg font-bold">Thread</p>
+                    <p className="text-lg font-bold">Profile</p>
                     <Button onClick={onClose} variant={'ghost'} size={'iconsm'}>
                         <XIcon className="size-5 stroke=[1.5]"/>
                     </Button>
